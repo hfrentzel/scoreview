@@ -15,3 +15,9 @@ export type BoatInfo = {
     sailNumber: string
     total: number
 }
+
+export type StoredRegatta = {
+    name: string
+    regattaId: string
+    boatClasses: string[]
+}

@@ -1,10 +1,9 @@
 html {
-  display: table;
   margin: auto;
+  max-width: 500px
 }
 
 body {
-  display: table-cell;
   vertical-align: middle;
 }
 
@@ -18,6 +17,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   --border-color: #e5e5e5;
+}
+
+h3 {
+  margin: 0;
 }
 
 table {
@@ -59,4 +62,38 @@ table {
 
   }
 
+}
+
+.splash {
+  text-align: center;
+
+  .url-search {
+    width: 80%;
+    margin: auto;
+
+    input {
+      border-radius: 3px 0 0 3px;
+      border: 1px solid black;
+      border-right: none;
+      width: 80%;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      border-radius: 0 3px 3px 0;
+      border: 1px solid black;
+      background-color: #5353a6;
+      color: white;
+    }
+  }
+
+  .input-error {
+    font-weight: bold;
+    background-color: #db8181;
+    border: 3px solid #a21818;
+    border-radius: 3px;
+  }
 }
