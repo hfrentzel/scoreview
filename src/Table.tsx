@@ -21,7 +21,8 @@ function Table({ regatta }: TableArgs) {
       setIsLoading(false);
     }
     get();
-  }, [])
+  }, [regattaId, boatClassId])
+
 
   useEffect(() => {
     let newResults = [...results[0]];

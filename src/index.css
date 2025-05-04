@@ -19,8 +19,46 @@ body {
   --border-color: #e5e5e5;
 }
 
+#header {
+  display: flex;
+  justify-content: space-between;
+}
+
 h3 {
   margin: 0;
+}
+
+#menu-wrapper {
+  position: relative;
+}
+
+#menu-icon {
+  width: 35px;
+  border: 1px solid transparent;
+
+  &:hover {
+    border: 1px solid black;
+  }
+}
+
+#regatta-menu {
+  background-color: white;
+  position: absolute;
+  right: 0;
+  border: 1px solid black;
+  width: max-content;
+
+  ul {
+    padding: 0 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 15px;
+      padding-right: 5px;
+    }
+  }
 }
 
 table {

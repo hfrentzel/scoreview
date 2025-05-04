@@ -33,8 +33,34 @@ export async function getResults(regattaId: string, boatClass: string) {
         .then(r => r.json()).then(r => { return r })
 }
 
-export function parseRegatta(regattaId: string, data: any): StoredRegatta {
-    const boatClasses = data.boatClassesArray.map((e) => e.objectId);
+export async function parseRegatta(regattaId: string, data: any): Promise<StoredRegatta> {
+    let boatClasses;
+    if (data.boatClassesArray) {
+        boatClasses = data.boatClassesArray.map((e) => e.objectId);
+    } else {
+        const payload = {
+            "where": {
+                "regattaObject": {
+                    "objectId": regattaId,
+                    "className": "regattas",
+                    "__type": "Pointer"
+                }
+            },
+            "_method": "GET",
+            "_ApplicationId": "myclubspot2017"
+        }
+        const resp = await fetch("https://theclubspot.com/parse/classes/boatClasses", {
+            method: "POST",
+            headers: {
+                "content-type": "text/plain"
+            },
+            body: JSON.stringify(payload)
+        }).then(r => r.json())
+            .then(r => {
+                return r.results
+            })
+        boatClasses = resp.map((r) => r.objectId)
+    }
     return {
         name: data.name,
         regattaId,
