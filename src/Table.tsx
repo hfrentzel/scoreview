@@ -43,10 +43,10 @@ function Table({ regatta }: TableArgs) {
   } else {
     return (
       <table>
-        <tbody>
+        <thead>
           <tr>
             <th></th>
-            <th>Sailor</th>
+            <th className="sticky">Sailor</th>
             <th>Sail Number</th>
             <th
               className={sortKey == 'Net' && 'sort' || ''}
@@ -58,14 +58,15 @@ function Table({ regatta }: TableArgs) {
               const key = `R${r}`;
               const className = sortKey == key ? 'sort' : '';
               return <th className={className}
-                onClick={() => setSortKey(key)} key={key}>R{r}</th>
+                onClick={() => setSortKey(key)} key={key}>{key}</th>
             })}
-
           </tr>
+        </thead>
+        <tbody>
           {results && results[0].map((r) => {
             return <tr key={r.sailNumber}>
               <td>{r.place}</td>
-              <td>{r.owner}</td>
+              <td className='sticky'>{r.owner}</td>
               <td>{r.sailNumber}</td>
               <td>{r.net}</td>
               <td>{r.total}</td>

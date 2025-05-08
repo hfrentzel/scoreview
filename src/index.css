@@ -42,6 +42,7 @@ h3 {
 }
 
 #regatta-menu {
+  z-index: 4;
   background-color: white;
   position: absolute;
   right: 0;
@@ -63,10 +64,15 @@ h3 {
 
 table {
   border: 1px solid #e5e5e5;
-  border-collapse: collapse;
+  border-spacing: 0;
 
   th {
+    background-color: white;
+    border-bottom: 1px solid #a6a6a6;
     padding: 0 3px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 
     &.sort {
       text-decoration: underline;
@@ -78,7 +84,6 @@ table {
     text-align: center;
 
     &:first-child {
-      border: none;
       padding-right: 5px;
     }
 
@@ -91,15 +96,28 @@ table {
       text-align: left;
       padding: 5px;
     }
+
+    &.sticky {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background-color: inherit;
+    }
+  }
+
+  th.sticky {
+    z-index: 3;
   }
 
   tr {
+    &:nth-child(2n + 1) {
+      background-color: white;
+    }
+
     &:nth-child(2n) {
       background-color: #e5e5e5;
     }
-
   }
-
 }
 
 .splash {
