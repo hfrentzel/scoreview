@@ -2,6 +2,7 @@ export type RaceFinish = {
     raceNumber: number
     place: number
     throwout: boolean
+    letterScore: string | null
 }
 
 export type BoatInfo = {

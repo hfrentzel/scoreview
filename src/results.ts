@@ -27,7 +27,8 @@ export function parseResults(results): [BoatInfo[], number[], boolean] {
             item.races.push({
                 raceNumber: race.race_number,
                 place: race.points,
-                throwout
+                throwout,
+                letterScore: race.letterScore
             })
             item.total += race.points
             if (!throwout) {
