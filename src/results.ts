@@ -1,6 +1,6 @@
 import { BoatInfo } from './types';
 
-export function parseResults(results): [BoatInfo[], number[]] {
+export function parseResults(results): [BoatInfo[], number[], boolean] {
     const parsed = [] as BoatInfo[];
 
     const races = [] as number[];
@@ -9,6 +9,7 @@ export function parseResults(results): [BoatInfo[], number[]] {
     }
     races.sort()
 
+    let has_throwouts = false;
     for (const data of results.scoresByRegistration) {
         const reggie = data.registrationObject
         const item = {} as BoatInfo
@@ -22,6 +23,7 @@ export function parseResults(results): [BoatInfo[], number[]] {
         item["races"] = []
         for (const race of data.scoring_data) {
             const throwout = race?.throwout ?? false
+            has_throwouts ||= throwout;
             item.races.push({
                 raceNumber: race.race_number,
                 place: race.points,
@@ -42,5 +44,5 @@ export function parseResults(results): [BoatInfo[], number[]] {
         p.place = index + 1
     }
 
-    return [parsed, races]
+    return [parsed, races, has_throwouts]
 }

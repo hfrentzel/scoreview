@@ -8,7 +8,7 @@ type TableArgs = {
 }
 
 function Table({ regatta }: TableArgs) {
-  const [results, setResults] = useState<[BoatInfo[], number[]]>([[], []]);
+  const [results, setResults] = useState<[BoatInfo[], number[], boolean]>([[], [], false]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortKey, setSortKey] = useState("Net");
   const regattaId = regatta.regattaId
@@ -34,7 +34,7 @@ function Table({ regatta }: TableArgs) {
       const raceNum = parseInt(sortKey[1])
       newResults.sort((a, b) => a.races[raceNum - 1].place - b.races[raceNum - 1].place)
     }
-    setResults([newResults, [...results[1]]])
+    setResults([newResults, [...results[1]], results[2]])
 
   }, [setResults, sortKey])
 
@@ -51,9 +51,10 @@ function Table({ regatta }: TableArgs) {
             <th
               className={sortKey == 'Net' && 'sort' || ''}
               onClick={() => setSortKey('Net')}>Net</th>
-            <th
-              className={sortKey == 'Total' && 'sort' || ''}
-              onClick={() => setSortKey('Total')}>Total</th>
+            {results[2] && <th
+                className={sortKey == 'Total' && 'sort' || ''}
+                onClick={() => setSortKey('Total')}>Total</th>
+            }
             {results && results[1].map((r) => {
               const key = `R${r}`;
               const className = sortKey == key ? 'sort' : '';
@@ -69,7 +70,7 @@ function Table({ regatta }: TableArgs) {
               <td className='sticky'>{r.owner}</td>
               <td>{r.sailNumber}</td>
               <td>{r.net}</td>
-              <td>{r.total}</td>
+              {results[2] && <td>{r.total}</td>}
               {r.races.map((num) => {
                 return <td key={`${num.raceNumber}_${num.place}`}>
                   {num.throwout && `[${num.place}]` || num.place}
