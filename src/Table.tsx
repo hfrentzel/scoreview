@@ -32,7 +32,10 @@ function Table({ regatta }: TableArgs) {
       newResults.sort((a, b) => a.total - b.total)
     } else {
       const raceNum = parseInt(sortKey[1])
-      newResults.sort((a, b) => a.races[raceNum - 1].place - b.races[raceNum - 1].place)
+      newResults.sort((a, b) => {
+        return (a.races.find((n) => n.raceNumber == raceNum)?.place ?? 10000) -
+          (b.races.find((n) => n.raceNumber == raceNum)?.place ?? 10000)
+      })
     }
     setResults([newResults, [...results[1]], results[2]])
 
@@ -71,7 +74,13 @@ function Table({ regatta }: TableArgs) {
               <td>{r.sailNumber}</td>
               <td>{r.net}</td>
               {results[2] && <td>{r.total}</td>}
-              {r.races.map((num) => {
+              {results[1].map((raceNum) => {
+                const num = r.races.find((n) => n.raceNumber == raceNum);
+                if (num == undefined) {
+                  return <td key={`${raceNum}_${r.sailNumber}`} title={`-`}>
+                    -
+                  </td>
+                }
                 const display = num.letterScore || num.place;
                 return <td key={`${num.raceNumber}_${num.place}`}
                   title={`${num.place}`}>

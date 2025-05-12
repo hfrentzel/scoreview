@@ -37,6 +37,9 @@ export function parseResults(results): [BoatInfo[], number[], boolean] {
         }
 
         item.races.sort((a, b) => a.raceNumber - b.raceNumber)
+        if (races.length !== 0 && item.races.length == 0) {
+            continue;
+        }
         parsed.push(item)
     }
 
