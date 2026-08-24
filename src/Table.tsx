@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { getResults } from './requests';
 import { parseResults } from './results'
-import { BoatInfo, StoredRegatta } from './types';
+import { StoredRegatta, ResultSet } from './types';
 
 type TableArgs = {
   regatta: StoredRegatta
 }
 
 function Table({ regatta }: TableArgs) {
-  const [results, setResults] = useState<[BoatInfo[], number[], boolean]>([[], [], false]);
+  const [results, setResults] = useState<ResultSet>({ boats: [], races: [], has_throwouts: false });
   const [isLoading, setIsLoading] = useState(true);
   const [sortKey, setSortKey] = useState("Net");
   const regattaId = regatta.regattaId
@@ -25,7 +25,7 @@ function Table({ regatta }: TableArgs) {
 
 
   useEffect(() => {
-    let newResults = [...results[0]];
+    let newResults = [...results.boats];
     if (sortKey == 'Net') {
       newResults.sort((a, b) => a.net - b.net)
     } else if (sortKey == 'Total') {
@@ -37,7 +37,7 @@ function Table({ regatta }: TableArgs) {
           (b.races.find((n) => n.raceNumber == raceNum)?.place ?? 10000)
       })
     }
-    setResults([newResults, [...results[1]], results[2]])
+    setResults({ boats: newResults, races: [...results.races], has_throwouts: results.has_throwouts })
 
   }, [setResults, sortKey])
 
@@ -54,11 +54,11 @@ function Table({ regatta }: TableArgs) {
             <th
               className={sortKey == 'Net' && 'sort' || ''}
               onClick={() => setSortKey('Net')}>Net</th>
-            {results[2] && <th
+            {results.has_throwouts && <th
               className={sortKey == 'Total' && 'sort' || ''}
               onClick={() => setSortKey('Total')}>Total</th>
             }
-            {results && results[1].map((r) => {
+            {results && results.races.map((r) => {
               const key = `R${r}`;
               const className = sortKey == key ? 'sort' : '';
               return <th className={className}
@@ -67,14 +67,14 @@ function Table({ regatta }: TableArgs) {
           </tr>
         </thead>
         <tbody>
-          {results && results[0].map((r) => {
+          {results && results.boats.map((r) => {
             return <tr key={r.sailNumber}>
               <td>{r.place}</td>
               <td className='sticky'>{r.owner}</td>
               <td>{r.sailNumber}</td>
               <td>{r.net}</td>
-              {results[2] && <td>{r.total}</td>}
-              {results[1].map((raceNum) => {
+              {results.has_throwouts && <td>{r.total}</td>}
+              {results.races.map((raceNum) => {
                 const num = r.races.find((n) => n.raceNumber == raceNum);
                 if (num == undefined) {
                   return <td key={`${raceNum}_${r.sailNumber}`} title={`-`}>

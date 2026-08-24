@@ -1,6 +1,6 @@
-import { BoatInfo } from './types';
+import { BoatInfo, ResultSet } from './types';
 
-export function parseResults(results): [BoatInfo[], number[], boolean] {
+export function parseResults(results): ResultSet {
     const parsed = [] as BoatInfo[];
 
     const races = [] as number[];
@@ -48,5 +48,5 @@ export function parseResults(results): [BoatInfo[], number[], boolean] {
         p.place = index + 1
     }
 
-    return [parsed, races, has_throwouts]
+    return { boats: parsed, races, has_throwouts }
 }

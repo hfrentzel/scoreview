@@ -22,3 +22,9 @@ export type StoredRegatta = {
     regattaId: string
     boatClasses: string[]
 }
+
+export type ResultSet = {
+    boats: BoatInfo[],
+    races: number[],
+    has_throwouts: boolean
+}
