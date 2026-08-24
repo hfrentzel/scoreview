@@ -7,7 +7,7 @@ export function parseResults(results): [BoatInfo[], number[], boolean] {
     for (const race of results.races) {
         races.push(race.number)
     }
-    races.sort()
+    races.sort((a, b) => a - b)
 
     let has_throwouts = false;
     for (const data of results.scoresByRegistration) {
